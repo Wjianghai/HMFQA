@@ -343,6 +343,6 @@ class Multimodal_Transformer_Trainer:
 if __name__ == '__main__':
 
     tr = Multimodal_Transformer_Trainer(root='E:/code', device="cuda:0", train_batch=16, valid_batch=32, UseCacha=True)
-    tr.Main()  #
+    # tr.Main()
     with torch.no_grad():
         tr.Test()

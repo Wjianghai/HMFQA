@@ -1,10 +1,22 @@
-Health-oriented Multimodal Food Question Answering
+Health-oriented Multimodal Food Question Answering.
 
 
-训练一个模型需要用到:
-数据集文件：Resource/Dataset/dataset_file/dataset_10K(训练验证数据集),dataset_test(测试数据集)
-知识图谱特征文件：Resource/MFKG/KG_pth/
-训练好的模型文件：Resource/Model/Contrast
-需要下载,数据集文件(),
+Directory Structure：
+/HMFQA
+    /Code
+    /Config
+    /Resource
+        /Dataset
+        /MFKG
+        /Model
+        /Output
+    /Util
 
 
+Download Resource and Util from:
+https://pan.baidu.com/s/1N1c8l83i5YDl9hDoJWg8yA?pwd=xgki
+and merge the downloaded files into project.
+
+
+MFQA and MFKG are stored in /HMFQA/Resource/Dataset and /HMFQA/Resource/MFKG respectively.
+For training, run the main function of the py file in /HMFQA/Code

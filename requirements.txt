@@ -1,11 +1,12 @@
 python==3.8
-jieba
-pandas
+jieba==0.42.1
+pandas==1.4.1
+numpy==1.21.4
 transformers==4.12.3
-opencv-python
-imageio
-torch==1.8.1
-torchtext==0.9.1
+opencv-python==4.6.0.66
+imageio==2.21.1
+# torch==1.8.0+cu111
+tqdm==4.63.1
 matplotlib
 
 

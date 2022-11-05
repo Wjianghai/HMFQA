@@ -296,8 +296,6 @@ class Trainer:
         return answer_label
 
 
-
-
 if __name__ == '__main__':
     abs_file = os.path.abspath(__file__)
     abs_dir = abs_file[:abs_file.rfind('\\')] if os.name == 'nt' else abs_file[:abs_file.rfind(r'/')]
