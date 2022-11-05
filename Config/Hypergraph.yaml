@@ -1,0 +1,41 @@
+Model: "Hypergraph"
+
+Trainer:
+  device: "cuda:0"
+  UseCacha: True
+  model_file: "Resource/Model/Contrast/Hypergraph.pkl"
+  train_batch: 16
+  valid_batch: 32
+  lr: 0.001
+
+  step_size: 4
+  gamma: 0.68
+  patience: 8
+
+MODEL:
+  SEED: 1234
+  NUM_EDGE: 19
+  NUM_MAX_Q: 15
+  NUM_MAX_C: 20
+  NUM_MAX_QNODE: 3
+  NUM_MAX_HK_1H: 50
+  NUM_MAX_HK_2H: 100
+  NUM_MAX_HK_3H: 150
+  NUM_MAX_KNODE_1H: 6
+  NUM_MAX_KNODE_2H: 10
+  NUM_MAX_KNODE_3H: 12
+  FC_HID_COEFF: 4
+  NUM_OUT: 2
+  NUM_ANS: 19360
+  NUM_WORD_EMB : 300
+  NUM_HIDDEN: 768
+  NUM_HEAD: 4
+  NUM_LAYER: 2
+  INP_DROPOUT: 0.0
+  ATTN_DROPOUT_K: 0.0
+  ATTN_DROPOUT_Q: 0.0
+  RELU_DROPOUT: 0.0
+  RES_DROPOUT: 0.0
+  EMB_DROPOUT: 0.0
+  ATTN_MASK: False
+  BATCH_SIZE: 256

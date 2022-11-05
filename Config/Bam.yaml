@@ -1,0 +1,14 @@
+Model: "BAM"
+
+Trainer:
+  device: "cuda:0"
+  UseCacha: True
+  model_file: 'Resource/Model/Contrast/BAMnet.pkl'
+  train_batch: 16
+  valid_batch: 32
+  lr: 0.0001
+
+  # lr_scheduler
+  step_size: 4
+  gamma: 0.68
+  patience: 8
