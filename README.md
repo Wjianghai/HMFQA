@@ -37,7 +37,9 @@ Different configuration files load different models.Please adjust the configurat
 
 ### Contrast experiment: 
 ContrastTrainer.py for BAN,HAN,ConceptBert and Hypergraph.  
+
 ContrastTrainerBAM.py for BAM.
+
 MainTrainer.py for HMFQA.
 
 
