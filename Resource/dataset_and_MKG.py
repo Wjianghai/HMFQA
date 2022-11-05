@@ -22,10 +22,6 @@ class MKG_Mul:
             recipe_id2tensor_path,
             map_location={'cpu': "cpu"}
         )
-        torch.save(  # 7.3GB
-            self.recipe_id2tensor,
-            "recipe_id2tensor_768"
-        )
         self.device = device
 
     def context_gen(self,batch_data):

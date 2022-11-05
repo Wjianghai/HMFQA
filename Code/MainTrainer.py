@@ -3,41 +3,43 @@ from Resource.dataset_and_MKG import *
 import torch.backends.cudnn as cudnn
 import torch.optim as optim
 from torch.utils.data import DataLoader
-import random
-import time
+from Util.util.utils import load_files
 from tqdm import tqdm
 
 
 class Multimodal_Transformer_Trainer:
-    def __init__(self, root='/home/hmh', device="cuda:0", train_batch=16, valid_batch=16, UseCacha=False):
+    def __init__(self, cfg):
 
         # 文件夹/服务器位置,网络输出位置
-        self.root = root
-        self.device = device
-        self.UseCacha = UseCacha
+        self.device = cfg["Trainer"]["device"]
         self.margin = 0.1
         # 图谱 + 数据集
-        print("加载训验测数据集...")
-        self.Triple_dataloader_for_train = DataLoader(dataset=IRDataset_Mul(root=self.root, flag=0),
-                                                      batch_size=train_batch,
-                                                      shuffle=False, drop_last=True, collate_fn=collate_fn)
-        self.Triple_dataloader_for_valid = DataLoader(dataset=IRDataset_Mul(root=self.root, flag=1),
-                                                      batch_size=valid_batch,
-                                                      shuffle=False, collate_fn=collate_fn)  # batch为1时没必要用collate_fn
-        self.Triple_dataloader_for_test = DataLoader(dataset=IRDataset_Mul(root=self.root, flag=2),
-                                                      batch_size=1,
-                                                      shuffle=False, collate_fn=collate_fn)
-        print("加载多模态知识图谱...")
         self.MKG = MKG_Mul()
-        # 创建模型和优化器
-        self.model = IRnet_Multimodal_Transformer(device = device)  # 加载  初始化零值
-        if self.UseCacha:
-            self.model.load_state_dict(torch.load("Output/Multimodal_Transformer/Mul_Transformer_j2k2_m8n8_top8.pkl"))  # j
-        self.optimizer = optim.SGD(
-            self.model.parameters(), lr=1e-3)
-        self.scheduler = torch.optim.lr_scheduler.StepLR(self.optimizer, step_size=4, gamma=0.68)
-        self.model.to(device)
-        self.earlyS = EarlyStopping(patience=8)
+        self.Triple_dataloader_for_train = DataLoader(dataset=IRDataset_Mul(flag=0),
+                                                      batch_size=cfg["Trainer"]["train_batch"],
+                                                      shuffle=False, drop_last=True, collate_fn=collate_fn)
+        self.Triple_dataloader_for_valid = DataLoader(dataset=IRDataset_Mul(flag=1),
+                                                      batch_size=cfg["Trainer"]["valid_batch"],
+                                                      shuffle=False, collate_fn=collate_fn)  # batch为1时没必要用collate_fn
+        self.Triple_dataloader_for_test = DataLoader(dataset=IRDataset_Mul(flag=2),
+                                                     batch_size=1,
+                                                     shuffle=False, collate_fn=collate_fn)
+
+        self.model = IRnet_Multimodal_Transformer(cfg)  # 加载  初始化零值
+        self.model_file = cfg["Trainer"]["model_file"]
+        if cfg["Trainer"]["UseCacha"]:
+            print("loading Model...")
+            abs_file = os.path.abspath(__file__)
+            abs_dir = abs_file[:abs_file.rfind('\\')] if os.name == 'nt' else abs_file[:abs_file.rfind(r'/')]
+            abs_dir = abs_dir[:abs_dir.rfind('\\')] if os.name == 'nt' else abs_dir[:abs_dir.rfind(r'/')]
+            self.model_path = os.path.join(abs_dir, self.model_file)
+            self.model.load_state_dict(torch.load(self.model_path, map_location={'cpu': self.device}))
+
+        self.optimizer = optim.SGD(self.model.parameters(), lr=cfg["Trainer"]["lr"])
+        self.scheduler = torch.optim.lr_scheduler.StepLR(self.optimizer, step_size=cfg["Trainer"]["step_size"],
+                                                         gamma=cfg["Trainer"]["gamma"])
+        self.model.to(self.device)
+        self.earlyS = EarlyStopping(patience=cfg["Trainer"]["patience"])
     ###########################################################################################
     def Main(self):
         cudnn.benchmark = True
@@ -339,8 +341,12 @@ class Multimodal_Transformer_Trainer:
         return F1
 
 if __name__ == '__main__':
-
-    tr = Multimodal_Transformer_Trainer(root='E:/code', device="cuda:0", train_batch=16, valid_batch=32, UseCacha=True)
+    abs_file = os.path.abspath(__file__)
+    abs_dir = abs_file[:abs_file.rfind('\\')] if os.name == 'nt' else abs_file[:abs_file.rfind(r'/')]
+    abs_dir = abs_dir[:abs_dir.rfind('\\')] if os.name == 'nt' else abs_dir[:abs_dir.rfind(r'/')]
+    cfg_path = os.path.join(abs_dir, 'Config/HMFQA.yaml')
+    cfg = load_files(cfg_path)
+    tr = Multimodal_Transformer_Trainer(cfg)
     # tr.Main()
     with torch.no_grad():
         tr.Test()

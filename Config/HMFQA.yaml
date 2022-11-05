@@ -1,0 +1,23 @@
+Model: "HMFQA"
+
+Trainer:
+  device: "cuda:0"
+  UseCacha: True
+  model_file: 'Resource/Model/Contrast/Mul_Transformer_j2k2_m8n8.pkl'
+  train_batch: 16
+  valid_batch: 16
+  lr: 0.001
+
+  # lr_scheduler
+  step_size: 4
+  gamma: 0.68
+  patience: 8
+
+MODEL:
+  picture_dim: 512
+  hidden_dim: 768
+  N: 8
+  M: 8
+  K: 2
+  J: 2
+  top_k: 16

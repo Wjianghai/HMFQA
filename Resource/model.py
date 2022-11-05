@@ -26,20 +26,28 @@ def create_mask(x, N, use_cuda=True):
 
 ########################################################################
 class IRnet_Multimodal_Transformer(torch.nn.Module):
-    def __init__(self, picture_dim=512, hidden_dim=768, device = "cuda:0"):
+    def __init__(self,cfg):
         super(IRnet_Multimodal_Transformer, self).__init__()
+        device = cfg["Trainer"]["device"]
+        picture_dim = cfg["MODEL"]["picture_dim"]
+        hidden_dim = cfg["MODEL"]["hidden_dim"]
+        j = cfg["MODEL"]["J"]
+        k = cfg["MODEL"]["K"]
+        m = cfg["MODEL"]["M"]
+        n = cfg["MODEL"]["N"]
+
         self.device = device
         self.picture_linear = nn.Linear(picture_dim, hidden_dim, bias=False)  # 512 * 128
         # multi-layers transformer blocks, deep network
         self.Self_transformer_blocks = nn.ModuleList(
-            [TransformerBlock(hidden=hidden_dim, attn_heads=4, feed_forward_hidden=hidden_dim*2, dropout=0) for _ in range(8)])
+            [TransformerBlock(hidden=hidden_dim, attn_heads=4, feed_forward_hidden=hidden_dim*2, dropout=0) for _ in range(n)])
         self.Single_transformer_blocks_for_ans = nn.ModuleList(
-            [SingleTransformerBlock(hidden=hidden_dim, attn_heads=4, feed_forward_hidden=hidden_dim*2, dropout=0) for _ in range(8)])
+            [SingleTransformerBlock(hidden=hidden_dim, attn_heads=4, feed_forward_hidden=hidden_dim*2, dropout=0) for _ in range(m)])
         # 检索
         self.Single_transformer_blocks = nn.ModuleList(
-            [SingleTransformerBlock(hidden=hidden_dim, attn_heads=4, feed_forward_hidden=hidden_dim*2, dropout=0) for _ in range(2)])
+            [SingleTransformerBlock(hidden=hidden_dim, attn_heads=4, feed_forward_hidden=hidden_dim*2, dropout=0) for _ in range(k)])
         self.Cross_transformer_blocks = nn.ModuleList(
-            [CrossTransformerBlock(hidden=hidden_dim, attn_heads=4, feed_forward_hidden=hidden_dim*2, dropout=0) for _ in range(2)])
+            [CrossTransformerBlock(hidden=hidden_dim, attn_heads=4, feed_forward_hidden=hidden_dim*2, dropout=0) for _ in range(j)])
         self.lstm_enc_type = EncoderRNN(vocab_size = 7, embed_size = hidden_dim, hidden_size = hidden_dim,
                                         bidirectional=True,
                                         rnn_type='lstm',
@@ -47,7 +55,7 @@ class IRnet_Multimodal_Transformer(torch.nn.Module):
         self.loss_fn = MultiLabelMarginLoss()
         self.prediction = SimpleClassifier(hidden_dim, hidden_dim*2, 2, 0.5)
         self.cls_loss_fn = nn.CrossEntropyLoss()
-        self.top_k = 16
+        self.top_k = cfg["MODEL"]["top_k"]
 
 
     def forward(self,batch_text,batch_image,que_mask,ans,ans_mask,label,ans_label,b_s,c_s,train_flag):

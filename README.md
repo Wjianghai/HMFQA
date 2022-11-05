@@ -31,10 +31,13 @@ The Structure of MFKG:
 
 Run the main function of the Python files in /HMFQA/Code.
 
+"# tr.Main()" if you only want to test model file.
 
-### Baseline train and test: 
-ContrastTrainer.py for BAN,HAN,ConceptBert and Hypergraph.
+Different configuration files load different models.Please adjust the configuration file before training.
+
+### Contrast experiment: 
+ContrastTrainer.py for BAN,HAN,ConceptBert and Hypergraph.  
 ContrastTrainerBAM.py for BAM.
-
-### HMFQA train and test:
 MainTrainer.py for HMFQA.
+
+

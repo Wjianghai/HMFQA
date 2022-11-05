@@ -36,6 +36,7 @@ class Trainer:
         elif cfg["Model"]=='Hypergraph':
             self.model = HypergraphTransformer(cfg)
 
+
         self.model_file = cfg["Trainer"]["model_file"]
         if cfg["Trainer"]["UseCacha"]:
             print("loading Model...")
@@ -300,7 +301,7 @@ if __name__ == '__main__':
     abs_file = os.path.abspath(__file__)
     abs_dir = abs_file[:abs_file.rfind('\\')] if os.name == 'nt' else abs_file[:abs_file.rfind(r'/')]
     abs_dir = abs_dir[:abs_dir.rfind('\\')] if os.name == 'nt' else abs_dir[:abs_dir.rfind(r'/')]
-    cfg_path = os.path.join(abs_dir, 'Config/Hypergraph.yaml')
+    cfg_path = os.path.join(abs_dir, 'Config/HMFQA.yaml')
     cfg = load_files(cfg_path)
     tr = Trainer(cfg)
     # tr.Main()
