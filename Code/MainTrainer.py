@@ -28,15 +28,13 @@ class Multimodal_Transformer_Trainer:
                                                       batch_size=1,
                                                       shuffle=False, collate_fn=collate_fn)
         print("加载多模态知识图谱...")
-        self.MKG = MKG_Mul(root=self.root)
+        self.MKG = MKG_Mul()
         # 创建模型和优化器
         self.model = IRnet_Multimodal_Transformer(device = device)  # 加载  初始化零值
         if self.UseCacha:
             self.model.load_state_dict(torch.load("Output/Multimodal_Transformer/Mul_Transformer_j2k2_m8n8_top8.pkl"))  # j
-        # self.optimizer = optim.SGD(  # 这一步必须确保模型参数在cpu
-        #     self.model.parameters(), lr=1e-3,weight_decay=0.01)  # lr设置1e-2 : 检索
-        self.optimizer = optim.SGD(  # 这一步必须确保模型参数在cpu
-            self.model.parameters(), lr=1e-3)  # lr设置1e-2 : 检索
+        self.optimizer = optim.SGD(
+            self.model.parameters(), lr=1e-3)
         self.scheduler = torch.optim.lr_scheduler.StepLR(self.optimizer, step_size=4, gamma=0.68)
         self.model.to(device)
         self.earlyS = EarlyStopping(patience=8)

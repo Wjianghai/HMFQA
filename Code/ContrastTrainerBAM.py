@@ -14,7 +14,7 @@ class Trainer:
         self.device = cfg["Trainer"]["device"]
 
         # 图谱 + 数据集
-        # self.MKG = MKG_Mul()
+        self.MKG = MKG_Mul()
         self.Triple_dataloader_for_train = DataLoader(dataset=IRDataset_Mul(flag=0),
                                                       batch_size=cfg["Trainer"]["train_batch"],
                                                       shuffle=True, drop_last=True, collate_fn=collate_fn)
