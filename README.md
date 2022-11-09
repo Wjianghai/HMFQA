@@ -12,8 +12,11 @@ Program Structure:
         /Config
         /Resource
             /Dataset
+                /dataset_file
             /MFKG
+                /KG_pth
             /Model
+                /Contrast
             /Output
         /Util
         
