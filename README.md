@@ -1,7 +1,33 @@
 # This repository is the implementation of HMFQA: Health-oriented Multimodal Food Question Answering.
 
+
+
+## Updates
+January 10, 2025: Update the main code of the Tomm work
+
+October 25, 2022: HMFQA is accepted by MMM2023 (Oral)!
+
+## Abstract
+Health-oriented food analysis has become a research hotspot in recent years because it can help people keep away from unhealthy diets. Remarkable advancements have been made in recipe retrieval, food recommendation, nutrition and calorie estimation. However, existing works still cannot well balance the individual preference and the health. Multimodal food question and answering (MFQA) presents substantial promise for practical applications, yet it remains underexplored. In this paper, we introduce a health-oriented MFQA dataset with 9,000 Chinese question-answer pairs based on a multimodal food knowledge graph (MFKG) collected from a food-sharing website. Additionally, we propose a novel framework for MFQA in the health domain that leverages implicit general knowledge and explicit domain-specific knowledge. The framework comprises four key components: implicit general knowledge injection module (IGKIM), explicit domain-specific knowledge retrieval module (EDKRM), ranking module and answer module. The IGKIM facilitates knowledge acquisition at both the feature and text levels. The EDKRM retrieves the most relevant candidate knowledge from the knowledge graph based on the given question. The ranking module sorts the results retrieved by EDKRM and further retrieve candidate knowledge relevant to the problem. Subsequently, the answer module thoroughly analyzes the multimodal information in the query along with the retrieved relevant knowledge to predict accurate answers. Extensive experimental results on the MFQA dataset demonstrate the effectiveness of our proposed method.
+
 For an overview of the Model, please refere to the following picture:
-![Model](/Resource/FoodQA.png)
+![Model](/Resource/framework.png)
+[//]: # (![Model]&#40;/Resource/FoodQA.png&#41;)
+
+## Main Results
+
+|         Method         |  F1-Score   | Accuracy |
+|:----------------------:|:-----------:| :---: | 
+|         BAMnet         |    0.681    | 0.546 | 
+|      ConceptBert       |    0.664    | 0.662 | 
+|          HAN           |    0.668    | 0.664 | 
+|          BAN           |    0.676    | 0.671 | 
+| Hypergraph Transformer |    0.693    | 0.642 | 
+|     HMFQA（MMM2023）     |    0.710    | 0.682 | 
+|     KB-HMFQA（Tomm）     |  0.739 | 0.739 | 
+
+
+## Getting Started
 
 
 ## Prepare：  
