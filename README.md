@@ -12,7 +12,6 @@ Health-oriented food analysis has become a research hotspot in recent years beca
 
 For an overview of the Model, please refere to the following picture:
 ![Model](/Resource/framework.png)
-[//]: # (![Model]&#40;/Resource/FoodQA.png&#41;)
 
 ## Main Results
 
